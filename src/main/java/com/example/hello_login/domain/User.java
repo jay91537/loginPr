@@ -12,9 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-@Builder
 @Getter
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class User {
 
