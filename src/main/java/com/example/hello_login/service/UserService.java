@@ -1,13 +1,13 @@
 package com.example.hello_login.service;
 
-
-import com.example.hello_login.domain.User;
-import com.example.hello_login.domain.dto.JoinRequest;
-import com.example.hello_login.domain.dto.LoginRequest;
-import com.example.hello_login.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.hello_login.domain.dto.JoinRequest;
+import com.example.hello_login.domain.dto.LoginRequest;
+import com.example.hello_login.domain.User;
+import com.example.hello_login.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -17,6 +17,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    // private final BCryptPasswordEncoder encoder;
 
     /**
      * loginId 중복 체크
@@ -51,9 +52,9 @@ public class UserService {
      * 회원가입 1과는 달리 비밀번호를 암호화해서 저장
      * loginId, nickname 중복 체크는 Controller에서 진행 => 에러 메세지 출력을 위해
      */
-    public void join2(JoinRequest req) {
-        userRepository.save(req.toEntity(encoder.encode(req.getPassword())));
-    }
+//    public void join2(JoinRequest req) {
+//        userRepository.save(req.toEntity(encoder.encode(req.getPassword())));
+//    }
 
     /**
      *  로그인 기능
@@ -88,9 +89,9 @@ public class UserService {
         if(userId == null) return null;
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isEmpty()) return null;
+        // Optional 의 method인 orElse 사용
+        return optionalUser.orElse(null);
 
-        return optionalUser.get();
     }
 
     /**
@@ -103,10 +104,8 @@ public class UserService {
         if(loginId == null) return null;
 
         Optional<User> optionalUser = userRepository.findByLoginId(loginId);
-        if(optionalUser.isEmpty()) return null;
+        // Optional 의 method인 orElse 사용
+        return optionalUser.orElse(null);
 
-        return optionalUser.get();
     }
-
-
 }

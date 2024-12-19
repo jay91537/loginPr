@@ -22,7 +22,7 @@ public class JoinRequest {
     @NotBlank(message = "닉네임이 비어있습니다.")
     private String nickname;
 
-    // 비밀번호를 암호화하는 경우
+    // Spring Security : 비밀번호를 암호화하는 경우
     public User toEntity(String encodedPassword) {
         return User.builder()
                 .loginId(this.loginId)
